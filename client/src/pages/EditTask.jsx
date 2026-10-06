@@ -18,7 +18,6 @@ function EditTask() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Fetch the selected task
   useEffect(() => {
     fetchTask();
   }, [id]);
@@ -50,7 +49,6 @@ function EditTask() {
     }
   };
 
-  // Handle form changes
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -60,12 +58,12 @@ function EditTask() {
     }));
   };
 
-  // Update the task
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!formData.title.trim()) {
       setError("Please enter a task title.");
+      setSuccess("");
       return;
     }
 
@@ -90,79 +88,110 @@ function EditTask() {
 
   if (loading) {
     return (
-      <div className="container mt-5">
-        <h2>Edit Task</h2>
-        <p>Loading task...</p>
+      <div className="container page-container">
+        <div className="page-loading">
+          <div className="spinner-border text-primary" role="status"></div>
+          <p className="mt-3 mb-0">Loading task...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mt-5">
+    <div className="container page-container">
+
+      {/* Header */}
+      <div className="page-header add-page-header">
+        <div>
+          <p className="section-label">UPDATE TASK</p>
+
+          <h1 className="page-title">
+            Edit Your Task
+          </h1>
+
+          <p className="page-subtitle">
+            Update the details and keep your task information current.
+          </p>
+        </div>
+      </div>
+
       <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-6">
+        <div className="col-xl-8 col-lg-9">
 
-          <div className="card shadow-sm">
-            <div className="card-body p-4">
+          <div className="form-card shadow-sm">
 
-              <h2 className="mb-4 text-center">
-                Edit Task
-              </h2>
+            {/* Form Header */}
+            <div className="form-card-top">
+              <div className="form-icon">
+                ✎
+              </div>
 
-              {error && (
-                <div className="alert alert-danger">
-                  {error}
-                </div>
-              )}
+              <div>
+                <h3>Edit Task</h3>
 
-              {success && (
-                <div className="alert alert-success">
-                  {success}
-                </div>
-              )}
+                <p>
+                  Modify the information below and save your changes.
+                </p>
+              </div>
+            </div>
 
-              <form onSubmit={handleSubmit}>
+            {/* Messages */}
+            {error && (
+              <div className="alert alert-danger">
+                {error}
+              </div>
+            )}
 
-                {/* Title */}
-                <div className="mb-3">
-                  <label className="form-label">
-                    Task Title
-                  </label>
+            {success && (
+              <div className="alert alert-success">
+                {success}
+              </div>
+            )}
 
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    placeholder="Enter task title"
-                  />
-                </div>
+            <form onSubmit={handleSubmit}>
 
-                {/* Description */}
-                <div className="mb-3">
-                  <label className="form-label">
-                    Description
-                  </label>
+              {/* Title */}
+              <div className="mb-4">
+                <label className="form-label fw-semibold">
+                  Task Title
+                </label>
 
-                  <textarea
-                    className="form-control"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    placeholder="Enter task description"
-                    rows="4"
-                  />
-                </div>
+                <input
+                  type="text"
+                  className="form-control stylish-input"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  placeholder="Enter task title"
+                />
+              </div>
+
+              {/* Description */}
+              <div className="mb-4">
+                <label className="form-label fw-semibold">
+                  Description
+                </label>
+
+                <textarea
+                  className="form-control stylish-input"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Add details about this task..."
+                  rows="5"
+                />
+              </div>
+
+              <div className="row g-4">
 
                 {/* Priority */}
-                <div className="mb-3">
-                  <label className="form-label">
+                <div className="col-md-4">
+                  <label className="form-label fw-semibold">
                     Priority
                   </label>
 
                   <select
-                    className="form-select"
+                    className="form-select stylish-input"
                     name="priority"
                     value={formData.priority}
                     onChange={handleChange}
@@ -174,14 +203,14 @@ function EditTask() {
                 </div>
 
                 {/* Due Date */}
-                <div className="mb-3">
-                  <label className="form-label">
+                <div className="col-md-4">
+                  <label className="form-label fw-semibold">
                     Due Date
                   </label>
 
                   <input
                     type="date"
-                    className="form-control"
+                    className="form-control stylish-input"
                     name="dueDate"
                     value={formData.dueDate}
                     onChange={handleChange}
@@ -189,51 +218,53 @@ function EditTask() {
                 </div>
 
                 {/* Status */}
-                <div className="mb-4">
-                  <label className="form-label">
+                <div className="col-md-4">
+                  <label className="form-label fw-semibold">
                     Status
                   </label>
 
                   <select
-                    className="form-select"
+                    className="form-select stylish-input"
                     name="status"
                     value={formData.status}
                     onChange={handleChange}
                   >
                     <option value="Pending">Pending</option>
-                    <option value="In Progress">
-                      In Progress
-                    </option>
-                    <option value="Completed">
-                      Completed
-                    </option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
                   </select>
                 </div>
 
-                <div className="d-flex gap-2">
-                  <button
-                    type="submit"
-                    className="btn btn-primary w-100"
-                  >
-                    Update Task
-                  </button>
+              </div>
 
-                  <button
-                    type="button"
-                    className="btn btn-secondary w-100"
-                    onClick={() => navigate("/tasks")}
-                  >
-                    Cancel
-                  </button>
-                </div>
+              <div className="form-divider"></div>
 
-              </form>
+              <div className="d-flex gap-3">
 
-            </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg px-4 flex-grow-1"
+                >
+                  Save Changes
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-light btn-lg px-4"
+                  onClick={() => navigate("/tasks")}
+                >
+                  Cancel
+                </button>
+
+              </div>
+
+            </form>
+
           </div>
 
         </div>
       </div>
+
     </div>
   );
 }
