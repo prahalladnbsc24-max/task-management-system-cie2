@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 import TaskCard from "../components/TaskCard";
 
 function Tasks() {
@@ -66,8 +68,14 @@ function Tasks() {
     return (
       <div className="container page-container">
         <div className="page-loading">
-          <div className="spinner-border text-primary" role="status"></div>
-          <p className="mt-3 mb-0">Loading your tasks...</p>
+          <div
+            className="spinner-border text-primary"
+            role="status"
+          ></div>
+
+          <p className="mt-3 mb-0">
+            Loading your tasks...
+          </p>
         </div>
       </div>
     );
@@ -79,7 +87,9 @@ function Tasks() {
       {/* Page Header */}
       <div className="page-header">
         <div>
-          <p className="section-label">MY WORKSPACE</p>
+          <p className="section-label">
+            MY WORKSPACE
+          </p>
 
           <h1 className="page-title">
             My Tasks
@@ -96,7 +106,9 @@ function Tasks() {
           </span>
 
           <span className="task-count-label">
-            {filteredTasks.length === 1 ? "Task" : "Tasks"}
+            {filteredTasks.length === 1
+              ? "Task"
+              : "Tasks"}
           </span>
         </div>
       </div>
@@ -105,13 +117,16 @@ function Tasks() {
       <div className="filter-panel shadow-sm">
         <div className="row g-3 align-items-end">
 
+          {/* Search */}
           <div className="col-lg-5">
             <label className="form-label">
               Search Tasks
             </label>
 
             <div className="search-wrapper">
-              <span className="search-icon">⌕</span>
+              <span className="search-icon">
+                ⌕
+              </span>
 
               <input
                 type="text"
@@ -125,6 +140,7 @@ function Tasks() {
             </div>
           </div>
 
+          {/* Priority Filter */}
           <div className="col-md-4 col-lg-3">
             <label className="form-label">
               Priority
@@ -137,13 +153,25 @@ function Tasks() {
                 setPriorityFilter(event.target.value)
               }
             >
-              <option value="All">All Priorities</option>
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
+              <option value="All">
+                All Priorities
+              </option>
+
+              <option value="Low">
+                Low
+              </option>
+
+              <option value="Medium">
+                Medium
+              </option>
+
+              <option value="High">
+                High
+              </option>
             </select>
           </div>
 
+          {/* Status Filter */}
           <div className="col-md-4 col-lg-3">
             <label className="form-label">
               Status
@@ -156,13 +184,25 @@ function Tasks() {
                 setStatusFilter(event.target.value)
               }
             >
-              <option value="All">All Statuses</option>
-              <option value="Pending">Pending</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
+              <option value="All">
+                All Statuses
+              </option>
+
+              <option value="Pending">
+                Pending
+              </option>
+
+              <option value="In Progress">
+                In Progress
+              </option>
+
+              <option value="Completed">
+                Completed
+              </option>
             </select>
           </div>
 
+          {/* Clear Filters */}
           <div className="col-md-4 col-lg-1">
             <button
               className="btn btn-light filter-clear-btn w-100"
@@ -186,31 +226,42 @@ function Tasks() {
       {/* Results Summary */}
       {filteredTasks.length > 0 && (
         <div className="results-summary">
-          Showing <strong>{filteredTasks.length}</strong>{" "}
-          {filteredTasks.length === 1 ? "task" : "tasks"}
+          Showing{" "}
+          <strong>{filteredTasks.length}</strong>{" "}
+          {filteredTasks.length === 1
+            ? "task"
+            : "tasks"}
         </div>
       )}
 
       {/* Tasks */}
       {filteredTasks.length === 0 ? (
         <div className="empty-state shadow-sm">
-          <div className="empty-state-icon">✓</div>
 
-          <h3>No tasks found</h3>
+          <div className="empty-state-icon">
+            ✓
+          </div>
+
+          <h3>
+            No tasks found
+          </h3>
 
           <p>
-            Try changing your search or filters, or create a new task.
+            Try changing your search or filters,
+            or create a new task.
           </p>
 
-          <a
-            href="/add-task"
+          <Link
+            to="/add-task"
             className="btn btn-primary px-4"
           >
             + Create Task
-          </a>
+          </Link>
+
         </div>
       ) : (
         <div className="row">
+
           {filteredTasks.map((task) => (
             <TaskCard
               key={task._id}
@@ -218,6 +269,7 @@ function Tasks() {
               onTaskDeleted={handleTaskDeleted}
             />
           ))}
+
         </div>
       )}
 

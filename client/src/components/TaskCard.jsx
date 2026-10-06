@@ -1,6 +1,9 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function TaskCard({ task, onTaskDeleted }) {
+  const navigate = useNavigate();
+
   const handleDelete = async () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this task?"
@@ -65,7 +68,6 @@ function TaskCard({ task, onTaskDeleted }) {
   return (
     <div className="col-md-6 col-lg-4 mb-4">
       <div className="card task-card shadow-sm h-100">
-
         <div className="card-body d-flex flex-column">
 
           <div className="d-flex justify-content-between align-items-start mb-2">
@@ -109,9 +111,7 @@ function TaskCard({ task, onTaskDeleted }) {
 
             <button
               className="btn btn-outline-primary btn-sm flex-fill"
-              onClick={() =>
-                (window.location.href = `/edit-task/${task._id}`)
-              }
+              onClick={() => navigate(`/edit-task/${task._id}`)}
             >
               Edit
             </button>

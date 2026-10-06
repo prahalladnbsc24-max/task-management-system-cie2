@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import TaskStatistics from "../components/TaskStatistics";
@@ -72,12 +73,12 @@ function Home() {
         </p>
 
         <div className="mt-4">
-          <a
-            href="/add-task"
+          <Link
+            to="/add-task"
             className="btn btn-primary btn-lg px-4"
           >
             + Add New Task
-          </a>
+          </Link>
         </div>
       </div>
 
