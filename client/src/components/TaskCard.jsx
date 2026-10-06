@@ -22,7 +22,6 @@ function TaskCard({ task, onTaskDeleted }) {
     }
   };
 
-  // Check whether the task is overdue
   const isOverdue = () => {
     if (!task.dueDate || task.status === "Completed") {
       return false;
@@ -37,52 +36,79 @@ function TaskCard({ task, onTaskDeleted }) {
     return dueDate < today;
   };
 
+  const getPriorityClass = () => {
+    switch (task.priority) {
+      case "High":
+        return "bg-danger";
+      case "Medium":
+        return "bg-warning text-dark";
+      case "Low":
+        return "bg-success";
+      default:
+        return "bg-secondary";
+    }
+  };
+
+  const getStatusClass = () => {
+    switch (task.status) {
+      case "Completed":
+        return "bg-success";
+      case "In Progress":
+        return "bg-primary";
+      case "Pending":
+        return "bg-secondary";
+      default:
+        return "bg-secondary";
+    }
+  };
+
   return (
     <div className="col-md-6 col-lg-4 mb-4">
-      <div className="card shadow-sm h-100">
-        <div className="card-body">
+      <div className="card task-card shadow-sm h-100">
 
-          <h5 className="card-title">
-            {task.title}
-          </h5>
+        <div className="card-body d-flex flex-column">
 
-          <p className="card-text">
+          <div className="d-flex justify-content-between align-items-start mb-2">
+            <h5 className="card-title fw-bold mb-0">
+              {task.title}
+            </h5>
+
+            {isOverdue() && (
+              <span className="badge bg-danger ms-2">
+                OVERDUE
+              </span>
+            )}
+          </div>
+
+          <p className="card-text text-muted">
             {task.description || "No description"}
           </p>
 
-          <p className="mb-2">
+          <div className="mb-2">
             <strong>Priority:</strong>{" "}
-            <span className="badge bg-warning text-dark">
+            <span className={`badge ${getPriorityClass()}`}>
               {task.priority}
             </span>
-          </p>
+          </div>
 
-          <p className="mb-2">
+          <div className="mb-2">
             <strong>Status:</strong>{" "}
-            <span className="badge bg-secondary">
+            <span className={`badge ${getStatusClass()}`}>
               {task.status}
             </span>
-          </p>
+          </div>
 
-          <p className="mb-2">
+          <div className="mb-3">
             <strong>Due Date:</strong>{" "}
             {task.dueDate
               ? new Date(task.dueDate).toLocaleDateString()
               : "No due date"}
-          </p>
+          </div>
 
-          {/* Overdue indicator */}
-          {isOverdue() && (
-            <div className="mb-3">
-              <span className="badge bg-danger">
-                OVERDUE
-              </span>
-            </div>
-          )}
+          <div className="mt-auto d-flex gap-2">
 
-          <div className="d-flex gap-2">
             <button
-              className="btn btn-outline-primary btn-sm"
+              className="btn btn-outline-primary btn-sm flex-fill"
               onClick={() =>
                 (window.location.href = `/edit-task/${task._id}`)
               }
@@ -91,11 +117,12 @@ function TaskCard({ task, onTaskDeleted }) {
             </button>
 
             <button
-              className="btn btn-outline-danger btn-sm"
+              className="btn btn-outline-danger btn-sm flex-fill"
               onClick={handleDelete}
             >
               Delete
             </button>
+
           </div>
 
         </div>
