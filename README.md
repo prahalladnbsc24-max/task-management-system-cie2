@@ -6,6 +6,26 @@ This project was developed as part of the **CS3301 – Full Stack Development CI
 
 ---
 
+## Selected YouTube Tutorial
+
+This project was developed by following and studying the following educational YouTube tutorial:
+
+### Tutorial Details
+
+**Tutorial Title:**  
+Full Stack ToDo App with React, Node.js, Express & MongoDB Tutorial
+
+**YouTube Channel:**  
+webco programming
+
+**Tutorial URL:**  
+https://www.youtube.com/watch?v=2l_oHQLQQ2s
+
+**Tutorial Type:**  
+Full-stack Task Management / To-Do Application
+
+---
+
 ## Project Overview
 
 The Task Management System is a web application that helps users create, organize, update, track, and delete tasks.
