@@ -57,14 +57,28 @@ function Home() {
     <div className="container mt-5">
 
       {/* Welcome Section */}
-      <div className="text-center">
-        <h1 className="display-4 fw-bold">
-          Task Management System
+      <div className="text-center py-4">
+        <p className="text-uppercase fw-bold text-primary mb-2">
+          Stay Organized
+        </p>
+
+        <h1 className="display-4">
+          Manage your tasks with ease
         </h1>
 
         <p className="lead">
-          Organize your tasks, track deadlines, and manage priorities.
+          Organize your work, track deadlines, set priorities,
+          and stay productive from one place.
         </p>
+
+        <div className="mt-4">
+          <a
+            href="/add-task"
+            className="btn btn-primary btn-lg px-4"
+          >
+            + Add New Task
+          </a>
+        </div>
       </div>
 
       {/* Statistics */}

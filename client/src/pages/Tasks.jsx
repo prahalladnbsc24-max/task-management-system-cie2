@@ -7,7 +7,6 @@ function Tasks() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Search and filter states
   const [searchTerm, setSearchTerm] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -38,15 +37,13 @@ function Tasks() {
     );
   };
 
-  // Search + filter logic
   const filteredTasks = tasks.filter((task) => {
+    const title = task.title || "";
+    const description = task.description || "";
+
     const matchesSearch =
-      task.title
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      task.description
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      description.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesPriority =
       priorityFilter === "All" ||
@@ -59,43 +56,66 @@ function Tasks() {
     return matchesSearch && matchesPriority && matchesStatus;
   });
 
+  const clearFilters = () => {
+    setSearchTerm("");
+    setPriorityFilter("All");
+    setStatusFilter("All");
+  };
+
   if (loading) {
     return (
-      <div className="container mt-5">
-        <h2>My Tasks</h2>
-        <p>Loading tasks...</p>
+      <div className="container page-container">
+        <div className="page-loading">
+          <div className="spinner-border text-primary" role="status"></div>
+          <p className="mt-3 mb-0">Loading your tasks...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mt-5">
+    <div className="container page-container">
 
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>My Tasks</h2>
+      {/* Page Header */}
+      <div className="page-header">
+        <div>
+          <p className="section-label">MY WORKSPACE</p>
 
-        <span className="badge bg-primary">
-          {filteredTasks.length} Task
-          {filteredTasks.length !== 1 ? "s" : ""}
-        </span>
+          <h1 className="page-title">
+            My Tasks
+          </h1>
+
+          <p className="page-subtitle">
+            Stay on top of your work and keep everything organized.
+          </p>
+        </div>
+
+        <div className="task-count-box">
+          <span className="task-count-number">
+            {filteredTasks.length}
+          </span>
+
+          <span className="task-count-label">
+            {filteredTasks.length === 1 ? "Task" : "Tasks"}
+          </span>
+        </div>
       </div>
 
       {/* Search and Filters */}
-      <div className="card shadow-sm mb-4">
-        <div className="card-body">
+      <div className="filter-panel shadow-sm">
+        <div className="row g-3 align-items-end">
 
-          <div className="row g-3">
+          <div className="col-lg-5">
+            <label className="form-label">
+              Search Tasks
+            </label>
 
-            {/* Search */}
-            <div className="col-md-5">
-              <label className="form-label fw-bold">
-                Search Tasks
-              </label>
+            <div className="search-wrapper">
+              <span className="search-icon">⌕</span>
 
               <input
                 type="text"
-                className="form-control"
+                className="form-control search-input"
                 placeholder="Search by title or description..."
                 value={searchTerm}
                 onChange={(event) =>
@@ -103,65 +123,54 @@ function Tasks() {
                 }
               />
             </div>
+          </div>
 
-            {/* Priority Filter */}
-            <div className="col-md-3">
-              <label className="form-label fw-bold">
-                Priority
-              </label>
+          <div className="col-md-4 col-lg-3">
+            <label className="form-label">
+              Priority
+            </label>
 
-              <select
-                className="form-select"
-                value={priorityFilter}
-                onChange={(event) =>
-                  setPriorityFilter(event.target.value)
-                }
-              >
-                <option value="All">All Priorities</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </select>
-            </div>
+            <select
+              className="form-select"
+              value={priorityFilter}
+              onChange={(event) =>
+                setPriorityFilter(event.target.value)
+              }
+            >
+              <option value="All">All Priorities</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
 
-            {/* Status Filter */}
-            <div className="col-md-3">
-              <label className="form-label fw-bold">
-                Status
-              </label>
+          <div className="col-md-4 col-lg-3">
+            <label className="form-label">
+              Status
+            </label>
 
-              <select
-                className="form-select"
-                value={statusFilter}
-                onChange={(event) =>
-                  setStatusFilter(event.target.value)
-                }
-              >
-                <option value="All">All Statuses</option>
-                <option value="Pending">Pending</option>
-                <option value="In Progress">
-                  In Progress
-                </option>
-                <option value="Completed">
-                  Completed
-                </option>
-              </select>
-            </div>
+            <select
+              className="form-select"
+              value={statusFilter}
+              onChange={(event) =>
+                setStatusFilter(event.target.value)
+              }
+            >
+              <option value="All">All Statuses</option>
+              <option value="Pending">Pending</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
 
-            {/* Clear Filters */}
-            <div className="col-md-1 d-flex align-items-end">
-              <button
-                className="btn btn-secondary w-100"
-                onClick={() => {
-                  setSearchTerm("");
-                  setPriorityFilter("All");
-                  setStatusFilter("All");
-                }}
-              >
-                Clear
-              </button>
-            </div>
-
+          <div className="col-md-4 col-lg-1">
+            <button
+              className="btn btn-light filter-clear-btn w-100"
+              onClick={clearFilters}
+              type="button"
+            >
+              Clear
+            </button>
           </div>
 
         </div>
@@ -169,19 +178,39 @@ function Tasks() {
 
       {/* Error */}
       {error && (
-        <div className="alert alert-danger">
+        <div className="alert alert-danger mt-4">
           {error}
         </div>
       )}
 
-      {/* No matching tasks */}
+      {/* Results Summary */}
+      {filteredTasks.length > 0 && (
+        <div className="results-summary">
+          Showing <strong>{filteredTasks.length}</strong>{" "}
+          {filteredTasks.length === 1 ? "task" : "tasks"}
+        </div>
+      )}
+
+      {/* Tasks */}
       {filteredTasks.length === 0 ? (
-        <div className="alert alert-info">
-          No matching tasks found.
+        <div className="empty-state shadow-sm">
+          <div className="empty-state-icon">✓</div>
+
+          <h3>No tasks found</h3>
+
+          <p>
+            Try changing your search or filters, or create a new task.
+          </p>
+
+          <a
+            href="/add-task"
+            className="btn btn-primary px-4"
+          >
+            + Create Task
+          </a>
         </div>
       ) : (
         <div className="row">
-
           {filteredTasks.map((task) => (
             <TaskCard
               key={task._id}
@@ -189,7 +218,6 @@ function Tasks() {
               onTaskDeleted={handleTaskDeleted}
             />
           ))}
-
         </div>
       )}
 
